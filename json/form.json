@@ -1,5 +1,27 @@
 [
+  {
+    "Type": "Picker",
+    "Name": "TypeOfStudent",
+    "DisplayName": "What type of student are you?",
+    "Buttons": [
+      "New",
+      "Existing STI Student"
+    ]
+  },
 
+
+  {
+    "Type": "Picker",
+    "Name": "Campus",
+    "DisplayName": "Preferred Campus",
+    "Buttons": [
+      "Alabang", "Caloocan", "Cubao"
+    ],
+    "ShouldShowWhen": {
+      "Name": "TypeOfStudent",
+      "Value": "New"
+    }
+  },
   {
     "Type": "Picker",
     "Name": "Course",
@@ -18,6 +40,27 @@
       "Name": "TypeOfStudent",
       "Value": "New"
     }
-  }
+  },
 
+  {
+    "Type": "Picker",
+    "Name": "PreferredCampus",
+    "DisplayName": "Preferred Campus",
+    "Buttons": [
+      "Alabang", "Caloocan", "Cubao"
+    ],
+    "ShouldShowWhen": {
+      "Name": "TypeOfStudent",
+      "Value": "Existing STI Student"
+    }
+  },
+  {
+    "Type": "String",
+    "Name": "StudentNumber",
+    "DisplayName": "Student Number",
+    "ShouldShowWhen": {
+      "Name": "TypeOfStudent",
+      "Value": "Existing STI Student"
+    }
+  }
 ]
