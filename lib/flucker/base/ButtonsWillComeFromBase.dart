@@ -1,15 +1,14 @@
-import 'package:json_annotation/json_annotation.dart';
 
-import 'ValueButtonBase.dart';
+import 'package:hello_world/flucker/base/ButtonsDependsOnBase.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'ButtonsWillComeFromBase.g.dart';
 
 @JsonSerializable()
 class ButtonsWillComeFromBase {
-  String Name;
-  List<ValueButtonBase> Buttons;
+  ButtonsDependsOnBase DependsOn;
 
-  ButtonsWillComeFromBase(this.Name, this.Buttons);
+  ButtonsWillComeFromBase(this.DependsOn);
 
   factory ButtonsWillComeFromBase.fromJson(Map<String, dynamic> json) => _$ButtonsWillComeFromBaseFromJson(json);
 
