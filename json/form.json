@@ -8,6 +8,16 @@
       "Existing STI Student"
     ]
   },
+  {
+    "Type": "String",
+    "Name": "FullName",
+    "DisplayName": "Full Name"
+  },
+  {
+    "Type": "Number",
+    "Name": "Age",
+    "DisplayName": "Age"
+  },
 
 
   {
