@@ -1,10 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:hello_world/flucker/default_dropdown_button.dart';
 
 import 'base.dart';
 import 'fields.dart';
+
+// TODO: add checking that all fields has unique names
 
 List<FieldBase> mapFormJsonToFieldBase(String formJson) =>
     [ for(var x in jsonDecode(formJson)) FieldBase.fromJson(x)];
@@ -65,7 +67,7 @@ List<Widget> mapBaseFieldToWidgets(List<BaseField> fields) {
     if (field is StringField) {
       widgets.add(const TextField());
     } else if (field is PickerField) {
-      widgets.add(const Text('PickerField'));
+      widgets.add(const DefaultDropdownButton(items: ["testing", "testing1"]));
     } else if (field is NumberField) {
       widgets.add(const TextField(keyboardType: TextInputType.numberWithOptions(),));
     }
