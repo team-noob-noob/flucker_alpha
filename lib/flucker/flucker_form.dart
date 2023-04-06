@@ -5,13 +5,6 @@ import 'package:hello_world/flucker/parsing.dart';
 import 'default_dropdown_button.dart';
 import 'fields.dart';
 
-class Pair {
-  Pair(this.fieldName, this.index);
-
-  String fieldName;
-  int index;
-}
-
 class FluckerForm extends StatefulWidget {
   const FluckerForm({super.key, required this.formJson});
 
