@@ -27,10 +27,10 @@ class _FluckerFormState extends State<FluckerForm> {
   Map<String, dynamic> values = {};
 
   void dynamicControlOnChange(dynamic e, BaseField field, int widgetIndex) {
-    values[field.name] = e;
+
     print(field.name);
     setState(() {
-      _widgets = mapBaseFieldToWidgets(_processedFields);
+      values[field.name] = e;
     });
   }
 
