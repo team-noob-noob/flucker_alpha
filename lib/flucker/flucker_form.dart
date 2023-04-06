@@ -33,34 +33,29 @@ class _FluckerFormState extends State<FluckerForm> {
 
     for (int i = 0; i < fields.length; i++) {
       var field = fields[i];
-      var hasDependency = field.shouldShowWhen != null;
-      var hasMatchingValue = false;
-      if (hasDependency) {
-        var dependency = field.shouldShowWhen!;
-        hasMatchingValue = values[dependency.field.name] == dependency.value;
+
+      // Don't display field that has dependency and value doesn't match
+      if (field.shouldShowWhen != null && values[field.shouldShowWhen!.field.name] == field.shouldShowWhen!.value) {
+        continue;
       }
 
       if (field is StringField) {
-        if (!hasDependency || hasMatchingValue) {
-          widgets.add(TextField(
-            decoration: InputDecoration(
-              labelText: field.displayName,
-            ),
-            onChanged: (text) {
+        widgets.add(TextField(
+          decoration: InputDecoration(
+            labelText: field.displayName,
+          ),
+          onChanged: (text) {
+            dynamicControlOnChange(text, field, i);
+          },
+        ));
+      } else if (field is PickerField) {
+        if (field.buttons != null) {
+          widgets.add(DefaultDropdownButton(
+            items: field.buttons!,
+            onChange: (text) {
               dynamicControlOnChange(text, field, i);
             },
           ));
-        }
-      } else if (field is PickerField) {
-        if (field.buttons != null) {
-          if (!hasDependency || hasMatchingValue) {
-            widgets.add(DefaultDropdownButton(
-              items: field.buttons!,
-              onChange: (text) {
-                dynamicControlOnChange(text, field, i);
-              },
-            ));
-          }
         } else if (field.buttonsWillComeFrom != null) {
           // TODO: implement changing buttons in dropdown
         } else {
@@ -68,17 +63,15 @@ class _FluckerFormState extends State<FluckerForm> {
               "PickerField ${field.name} doesn't have button source.");
         }
       } else if (field is NumberField) {
-        if (!hasDependency || hasMatchingValue) {
-          widgets.add(TextField(
-            decoration: InputDecoration(
-              labelText: field.displayName,
-            ),
-            keyboardType: const TextInputType.numberWithOptions(),
-            onChanged: (text) {
-              dynamicControlOnChange(text, field, i);
-            },
-          ));
-        }
+        widgets.add(TextField(
+          decoration: InputDecoration(
+            labelText: field.displayName,
+          ),
+          keyboardType: const TextInputType.numberWithOptions(),
+          onChanged: (text) {
+            dynamicControlOnChange(text, field, i);
+          },
+        ));
       }
     }
 
