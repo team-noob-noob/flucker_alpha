@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 class DefaultDropdownButton extends StatefulWidget {
-  const DefaultDropdownButton({super.key, required this.items});
+  const DefaultDropdownButton({super.key, required this.items, required this.onChange});
 
   final List<String> items;
+
+  final Function(String value) onChange;
 
   @override
   State<StatefulWidget> createState() => _DefaultDropdownButton();
@@ -16,6 +18,7 @@ class _DefaultDropdownButton extends State<DefaultDropdownButton> {
     setState(() {
       if (value != null) {
         selectedValue = value;
+        widget.onChange(value);
       }
     });
   }
@@ -27,7 +30,7 @@ class _DefaultDropdownButton extends State<DefaultDropdownButton> {
     ];
 
     return DropdownButton(
-      value: selectedValue,
+        value: selectedValue,
         items: dropdownMenuItems,
         onChanged: _onDefaultDropdownButtonChanged);
   }

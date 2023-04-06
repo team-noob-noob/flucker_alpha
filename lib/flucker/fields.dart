@@ -1,21 +1,26 @@
-
 abstract class BaseField {
   String get name;
+
   String get displayName;
+
   ShouldShowWhen? get shouldShowWhen;
+
   dynamic value;
 }
 
 class StringField extends BaseField {
   String _displayName;
+
   @override
   String get displayName => _displayName;
 
   String _name;
+
   @override
   String get name => _name;
 
   ShouldShowWhen? _shouldShowWhen;
+
   @override
   ShouldShowWhen? get shouldShowWhen => _shouldShowWhen;
 
@@ -26,14 +31,17 @@ class StringField extends BaseField {
 
 class PickerField extends BaseField {
   String _displayName;
+
   @override
   String get displayName => _displayName;
 
   String _name;
+
   @override
   String get name => _name;
 
   ShouldShowWhen? _shouldShowWhen;
+
   @override
   ShouldShowWhen? get shouldShowWhen => _shouldShowWhen;
 
@@ -43,19 +51,23 @@ class PickerField extends BaseField {
 
   static const String FieldName = 'Picker';
 
-  PickerField(this._displayName, this._name, [this._shouldShowWhen, this.buttons, this.buttonsWillComeFrom]);
+  PickerField(this._displayName, this._name,
+      [this._shouldShowWhen, this.buttons, this.buttonsWillComeFrom]);
 }
 
 class NumberField extends BaseField {
   String _displayName;
+
   @override
   String get displayName => _displayName;
 
   String _name;
+
   @override
   String get name => _name;
 
   ShouldShowWhen? _shouldShowWhen;
+
   @override
   ShouldShowWhen? get shouldShowWhen => _shouldShowWhen;
 

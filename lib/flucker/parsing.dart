@@ -1,8 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
-import 'package:hello_world/flucker/default_dropdown_button.dart';
-
 import 'base.dart';
 import 'fields.dart';
 
@@ -25,6 +22,10 @@ List<BaseField> mapFieldBaseToBaseField(List<FieldBase> fieldBases) {
       newField = baseFieldAbstractFactory(baseField, shouldShowWhen);
     } else {
       newField = baseFieldAbstractFactory(baseField);
+    }
+
+    if (newField is PickerField && baseField.buttons != null) {
+      newField.buttons = baseField.buttons;
     }
 
     if (newField is PickerField && baseField.buttonsWillComeFrom != null) {
@@ -58,20 +59,4 @@ BaseField baseFieldAbstractFactory(FieldBase field,
     default:
       throw Exception("Type doesn't exist");
   }
-}
-
-List<Widget> mapBaseFieldToWidgets(List<BaseField> fields) {
-  List<Widget> widgets = <Widget>[];
-  
-  for(var field in fields) {
-    if (field is StringField) {
-      widgets.add(const TextField());
-    } else if (field is PickerField) {
-      widgets.add(const DefaultDropdownButton(items: ["testing", "testing1"]));
-    } else if (field is NumberField) {
-      widgets.add(const TextField(keyboardType: TextInputType.numberWithOptions(),));
-    }
-  }
-  
-  return widgets;
 }

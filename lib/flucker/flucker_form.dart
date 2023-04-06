@@ -2,6 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hello_world/flucker/parsing.dart';
 
+import 'default_dropdown_button.dart';
+import 'fields.dart';
+
+class Pair {
+  Pair(this.fieldName, this.index);
+
+  String fieldName;
+  int index;
+}
+
 class FluckerForm extends StatefulWidget {
   const FluckerForm({super.key, required this.formJson});
 
@@ -12,13 +22,81 @@ class FluckerForm extends StatefulWidget {
 }
 
 class _FluckerFormState extends State<FluckerForm> {
+  List<BaseField> _processedFields = <BaseField>[];
   List<Widget> _widgets = <Widget>[];
+  Map<String, dynamic> values = {};
+
+  void dynamicControlOnChange(dynamic e, BaseField field, int widgetIndex) {
+    values[field.name] = e;
+    print(field.name);
+    setState(() {
+      _widgets = mapBaseFieldToWidgets(_processedFields);
+    });
+  }
+
+  // TODO: move widget instantiation in a separate classes
+  List<Widget> mapBaseFieldToWidgets(List<BaseField> fields) {
+    List<Widget> widgets = <Widget>[];
+
+    for (int i = 0; i < fields.length; i++) {
+      var field = fields[i];
+      var hasDependency = field.shouldShowWhen != null;
+      var hasMatchingValue = false;
+      if (hasDependency) {
+        var dependency = field.shouldShowWhen!;
+        hasMatchingValue = values[dependency.field.name] == dependency.value;
+      }
+
+      if (field is StringField) {
+        if (!hasDependency || hasMatchingValue) {
+          widgets.add(TextField(
+            decoration: InputDecoration(
+              labelText: field.displayName,
+            ),
+            onChanged: (text) {
+              dynamicControlOnChange(text, field, i);
+            },
+          ));
+        }
+      } else if (field is PickerField) {
+        if (field.buttons != null) {
+          if (!hasDependency || hasMatchingValue) {
+            widgets.add(DefaultDropdownButton(
+              items: field.buttons!,
+              onChange: (text) {
+                dynamicControlOnChange(text, field, i);
+              },
+            ));
+          }
+        } else if (field.buttonsWillComeFrom != null) {
+          // TODO: implement changing buttons in dropdown
+        } else {
+          throw Exception(
+              "PickerField ${field.name} doesn't have button source.");
+        }
+      } else if (field is NumberField) {
+        if (!hasDependency || hasMatchingValue) {
+          widgets.add(TextField(
+            decoration: InputDecoration(
+              labelText: field.displayName,
+            ),
+            keyboardType: const TextInputType.numberWithOptions(),
+            onChanged: (text) {
+              dynamicControlOnChange(text, field, i);
+            },
+          ));
+        }
+      }
+    }
+
+    return widgets;
+  }
 
   @override
   Widget build(BuildContext context) {
     var unprocessedFields = mapFormJsonToFieldBase(widget.formJson);
-    var processedFields = mapFieldBaseToBaseField(unprocessedFields);
-    _widgets = mapBaseFieldToWidgets(processedFields);
+    _processedFields = mapFieldBaseToBaseField(unprocessedFields);
+    _widgets = mapBaseFieldToWidgets(_processedFields);
 
     return Scaffold(
       body: Column(
