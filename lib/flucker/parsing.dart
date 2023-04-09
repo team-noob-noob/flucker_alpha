@@ -30,7 +30,7 @@ List<BaseField> mapFieldBaseToBaseField(List<FieldBase> fieldBases) {
 
     if (newField is PickerField && baseField.buttonsWillComeFrom != null) {
       var dependentField = baseFields.firstWhere((e) =>
-      e.name == baseField.shouldShowWhen!.name);
+      e.name == baseField.buttonsWillComeFrom!.dependsOn.name);
       List<ValueButton> valueButtons = [
         for(var x in baseField.buttonsWillComeFrom!.dependsOn
             .buttons) ValueButton(x.value, x.buttons)
